@@ -1,0 +1,13 @@
+@mixin font_logo
+{
+	font-family: "Arial Black";
+	font-size: 48pt;
+}
+
+@mixin font_plus
+{
+	font-family: "Arial Black";
+	font-size: 48pt;
+	line-height: 24pt;
+	color: white;
+}

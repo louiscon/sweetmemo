@@ -1,0 +1,85 @@
+@import "_include.scss";
+@import "_fonts.scss";
+
+$COLOUR_BACKGROUND: #282828;
+$COLOUR_EXCERPT: #DDDDDD;
+$COLOUR_EXCERPT_MOUSEOVER: #F92672;
+$COLOUR_DATE: #DDDDDD;
+$COLOUR_DATE_MOUSEOVER: #A6E22E;
+
+body
+{
+	text-align: center;
+	background-color: $COLOUR_BACKGROUND;
+}
+
+%logo
+{
+	@include font_logo;
+}
+
+#logo1
+{
+	@extend %logo;
+	color: $COLOUR_EXCERPT_MOUSEOVER;
+}
+
+#logo2
+{
+	@extend %logo;
+	color: white;
+}
+
+#plus
+{
+	@include font_plus;
+	position: relative;
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+	display: inline-block;
+}
+
+table
+{
+	margin: 0 auto;
+	width: 600px;
+	text-align: justify;
+}
+
+tr
+{
+	cursor: pointer;
+}
+
+.arrow
+{
+	color: $COLOUR_EXCERPT_MOUSEOVER;
+	opacity: 0;
+}
+
+.arrow_mouseover
+{
+	opacity: 1;
+}
+
+.excerpt
+{
+	color: $COLOUR_EXCERPT;
+	padding: 10px 10px 10px 0;
+}
+
+.excerpt_mouseover
+{
+	color: $COLOUR_EXCERPT_MOUSEOVER;
+}
+
+.date
+{
+	color: $COLOUR_DATE;
+}
+
+.date_mouseover
+{
+	color: $COLOUR_DATE_MOUSEOVER;
+}
