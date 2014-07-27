@@ -1,17 +1,18 @@
 @import "_include.scss";
 @import "_fonts.scss";
 
-$COLOUR_BACKGROUND: #282828;
-$COLOUR_EXCERPT: #DDDDDD;
-$COLOUR_EXCERPT_MOUSEOVER: #F92672;
-$COLOUR_DATE: #DDDDDD;
-$COLOUR_DATE_MOUSEOVER: #A6E22E;
-$COLOUR_INPUT_BACKGROUND: #141414;
+$BACKGROUND_COLOUR: #282828;
+$LIGHT_GREY: #DDDDDD;
+$GREEN: #A6E22E; 
+$PINK: #F92672;
+$BLUE: #00AEEF;
+$RED: #9E0B0F;
+$DARK_GREY: #141414;
 
 body
 {
 	text-align: center;
-	background-color: $COLOUR_BACKGROUND;
+	background-color: $BACKGROUND_COLOUR;
 }
 
 %logo
@@ -22,7 +23,7 @@ body
 #logo1
 {
 	@extend %logo;
-	color: $COLOUR_EXCERPT_MOUSEOVER;
+	color: $PINK;
 }
 
 #logo2
@@ -37,20 +38,73 @@ body
 	margin: 0 auto;
 }
 
+#input
+{
+	width: 0;
+	margin: 0;
+    border: 0;
+    padding: 0;
+	height: 50px;
+	overflow: hidden;
+	float: right;
+	resize: vertical;
+	background-color: $DARK_GREY;
+	color: $PINK;
+	border: none;
+	-moz-box-shadow:    inset 0 0 10px #000000;
+	-webkit-box-shadow: inset 0 0 10px #000000;
+	box-shadow:         inset 0 0 10px #000000;
+}
+
 #plus
 {
 	@include font_plus;
+	right: 5%;
 	position: absolute;
-	display: inline-block;
+	width: 50px;
+	height: 50px;
 }
 
-#input
+$PLUS_SIZE: 50px;
+
+#div_plus
 {
-	width: 100%;
-	height: 50px;
-	background-color: $COLOUR_INPUT_BACKGROUND;
-	color: $COLOUR_EXCERPT_MOUSEOVER;
-	border: 1px solid white;
+	right: 5%;
+	position: absolute;
+	width: $PLUS_SIZE;
+	height: $PLUS_SIZE;
+}
+
+%plus_component
+{
+	position: absolute;
+	background-color: white;
+}
+
+#plusX
+{
+	@extend %plus_component;
+	width: $PLUS_SIZE;
+	height: $PLUS_SIZE/4;
+	top: $PLUS_SIZE/2 - $PLUS_SIZE/8;
+}
+
+#plusY
+{
+	@extend %plus_component;
+	width: $PLUS_SIZE/4;
+	height: $PLUS_SIZE;
+	left: $PLUS_SIZE/2 - $PLUS_SIZE/8;
+}
+
+.plus_mouseover
+{
+	background-color: $PINK !important;
+}
+
+.cross_mouseover
+{
+	background-color: $BLUE !important;
 }
 
 table
@@ -61,14 +115,26 @@ table
 	text-align: justify;
 }
 
+th
+{
+	padding-top: 30px;
+	padding-bottom: 30px;
+	position: relative;
+}
+
 tr
 {
 	cursor: pointer;
 }
 
+td
+{
+	@include font_memo;
+}
+
 .arrow
 {
-	color: $COLOUR_EXCERPT_MOUSEOVER;
+	color: $PINK;
 	opacity: 0;
 }
 
@@ -79,22 +145,22 @@ tr
 
 .excerpt
 {
-	color: $COLOUR_EXCERPT;
+	color: $LIGHT_GREY;
 	padding: 10px 0px 10px 0;
 }
 
 .excerpt_mouseover
 {
-	color: $COLOUR_EXCERPT_MOUSEOVER;
+	color: $PINK;
 }
 
 .date
 {
-	color: $COLOUR_DATE;
+	color: $LIGHT_GREY;
 	padding-left: 15px;
 }
 
 .date_mouseover
 {
-	color: $COLOUR_DATE_MOUSEOVER;
+	color: $BLUE;
 }

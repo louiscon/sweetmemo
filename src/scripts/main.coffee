@@ -4,16 +4,28 @@ $(document).ready -> init()
 
 init = ->
 
-	#$('#plus').mouseover ->
-		#$(@).animate {rotation: 45}, {duration: 100, step: (now, fx) -> $('#plus').css "-webkit-transform", "rotate(" + now + "deg)"}
+	$('#div_plus').click ->
+		right = (if plus_open then '5%' else '105%')
+		width = (if plus_open then '0' else '100%')
+		angle = (if plus_open then '0' else '-45deg')
+		border = (if true then 'None' else '1px solid white')
+		easing = 'easeOutCirc'
+		duration = 700
 
-	#$('#plus').mouseleave ->
-		#$(@).animate {rotation: 0}, {duration: 100, step: (now, fx) -> $('#plus').css "-webkit-transform", "rotate(" + now + "deg)"}
-
-	$('#plus').click ->
-		right = (if plus_open then '0px' else '100px')
-		$(@).animate {right: right}, {duration: 200, easing: 'easeOutQuart'}
+		$(@).animate {right: right}, {duration: duration, easing: easing, queue: false}
+		$(@).animate {rotation: angle}, {duration: duration, step: (now, fx) -> $('#div_plus').css "-webkit-transform", "rotate(" + now + "deg)"}
+		$('#input').animate {width: width}, {duration: duration, easing: easing, complete: -> $('#input').css {'border': border} }
 		plus_open = not plus_open
+
+	$('#div_plus').mouseover ->
+		if plus_open
+			$(@).children().addClass 'cross_mouseover'
+		else
+			$(@).children().addClass 'plus_mouseover'
+
+	$('#div_plus').mouseleave ->
+		$(@).children().removeClass 'cross_mouseover'
+		$(@).children().removeClass 'plus_mouseover'
 
 	$('table').on 'mouseover', '.excerpt', ->
 		$(@).addClass("excerpt_mouseover")
