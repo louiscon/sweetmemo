@@ -8,12 +8,18 @@
 		%script{:type => "text/javascript", :src  => "../scripts/jquery.easing.1.3.js"}
 		%script{:type => "text/javascript", :src  => "../scripts/main.js"}
 	%body
-		<span id="logo1">sweet</span><span id="logo2">memo</span>
-		%br
+		%table#table_header
+			%tr.tr_header
+				%td.td_header
+				%td.td_logo
+					<span id="logo1">sweet</span><span id="logo2">memo</span>
+				%td.td_github
+					%a{href: 'https://github.com/louiscon/sweetmemo'}
+						%img{src: '../img/github.png', alt: 'GitHub'}
 		#div_content
 			%table#table_memos
-				%tr
-					%th
+				%tr.tr_memo
+					%th.th_memo
 						#div_plus
 							#plusX
 							#plusY

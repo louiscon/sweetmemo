@@ -15,6 +15,22 @@ body
 	background-color: $BACKGROUND_COLOUR;
 }
 
+#table_header
+{
+	table-layout: fixed;
+}
+
+.td_logo
+{
+	text-align: center;
+}
+
+.td_github
+{
+	text-align: right;
+	padding: 30px;
+}
+
 %logo
 {
 	@include font_logo;
@@ -48,6 +64,8 @@ body
 	overflow: hidden;
 	float: right;
 	resize: vertical;
+	white-space: nowrap;
+	overflow: auto;
 	background-color: $DARK_GREY;
 	color: $PINK;
 	border: none;
@@ -115,19 +133,19 @@ table
 	text-align: justify;
 }
 
-th
+.th_memo
 {
 	padding-top: 30px;
 	padding-bottom: 30px;
 	position: relative;
 }
 
-tr
+.tr_memo
 {
 	cursor: pointer;
 }
 
-td
+%td_memo
 {
 	@include font_memo;
 }
@@ -145,6 +163,7 @@ td
 
 .excerpt
 {
+	@extend %td_memo;
 	color: $LIGHT_GREY;
 	padding: 10px 0px 10px 0;
 }
@@ -156,6 +175,7 @@ td
 
 .date
 {
+	@extend %td_memo;
 	color: $LIGHT_GREY;
 	padding-left: 15px;
 }
