@@ -27,15 +27,30 @@ init = ->
 		$(@).children().removeClass 'cross_mouseover'
 		$(@).children().removeClass 'plus_mouseover'
 
-	$('table').on 'mouseover', '.excerpt', ->
-		$(@).addClass("excerpt_mouseover")
-		$(@).next().addClass('date_mouseover')
-		$(@).prev().addClass('arrow_mouseover')
+	$('#input').keydown (event) ->
+		if event.keyCode is 13
+			event.preventDefault()
+			memo = $(@).val()
+			$(@).val('')
 
-	$('table').on 'mouseleave', '.excerpt', ->
-		$(@).removeClass('excerpt_mouseover')
-		$(@).next().removeClass('date_mouseover')
-		$(@).prev().removeClass('arrow_mouseover')
+			td_memo = $('<td>', {class: 'td_excerpt'}).append $('<span>', {class: 'span_new'}).append memo
+			td_date = $('<td>', {class: 'td_date'}).append $('<span>', {class: 'span_new'}).append '27/07/2014'
+
+			tr = $('<tr>')
+			tr.append td_memo
+			tr.append td_date
+
+			$('#table_memos > tbody > tr').eq(0).after tr
+
+			$('.span_new').animate {opacity: 1}, {duration: 600, complete: -> $('.span_new').removeClass 'span_new'}
+
+	$('table').on 'mouseover', '.td_excerpt', ->
+		$(@).addClass("td_excerpt_mouseover")
+		$(@).next().addClass('td_date_mouseover')
+
+	$('table').on 'mouseleave', '.td_excerpt', ->
+		$(@).removeClass('td_excerpt_mouseover')
+		$(@).next().removeClass('td_date_mouseover')
 
 	fill()
 
@@ -43,17 +58,13 @@ fill = ->
 	for i in [0..50] by 1
 		memo = makeid()
 
-		td_arrow = $('<td>', {class: 'arrow'})
-		td_arrow.append '>'
-
-		td_excerpt = $('<td>', {class: 'excerpt'})
+		td_excerpt = $('<td>', {class: 'td_excerpt'})
 		td_excerpt.append memo
 
-		td_date = $('<td>', {class: 'date'})
+		td_date = $('<td>', {class: 'td_date'})
 		td_date.append '27/07/2014'
 
 		tr = $('<tr>')
-		#tr.append td_arrow
 		tr.append td_excerpt
 		tr.append td_date
 

@@ -69,9 +69,10 @@ body
 	background-color: $DARK_GREY;
 	color: $PINK;
 	border: none;
-	-moz-box-shadow:    inset 0 0 10px #000000;
-	-webkit-box-shadow: inset 0 0 10px #000000;
-	box-shadow:         inset 0 0 10px #000000;
+	max-height: 400px;
+	-moz-box-shadow:    inset 0 0 20px #000000;
+	-webkit-box-shadow: inset 0 0 20px #000000;
+	box-shadow:         inset 0 0 20px #000000;
 }
 
 #plus
@@ -133,14 +134,14 @@ table
 	text-align: justify;
 }
 
-.th_memo
+.th_memo_input
 {
 	padding-top: 30px;
 	padding-bottom: 30px;
 	position: relative;
 }
 
-.tr_memo
+.tr_memo_input
 {
 	cursor: pointer;
 }
@@ -150,37 +151,31 @@ table
 	@include font_memo;
 }
 
-.arrow
-{
-	color: $PINK;
-	opacity: 0;
-}
-
-.arrow_mouseover
-{
-	opacity: 1;
-}
-
-.excerpt
+.td_excerpt
 {
 	@extend %td_memo;
 	color: $LIGHT_GREY;
 	padding: 10px 0px 10px 0;
 }
 
-.excerpt_mouseover
+.td_excerpt_mouseover
 {
 	color: $PINK;
 }
 
-.date
+.td_date
 {
 	@extend %td_memo;
 	color: $LIGHT_GREY;
 	padding-left: 15px;
 }
 
-.date_mouseover
+.span_new
+{
+	color: $PINK;
+}
+
+.td_date_mouseover
 {
 	color: $BLUE;
 }
