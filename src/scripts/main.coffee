@@ -30,19 +30,21 @@ init = ->
 	$('#input').keydown (event) ->
 		if event.keyCode is 13
 			event.preventDefault()
-			memo = $(@).val()
-			$(@).val('')
+			if $(@).val() != ''
+				memo = $(@).val()
+				date = getDate()
+				saveMemo(memo)
+				$(@).val('')
 
-			td_memo = $('<td>', {class: 'td_excerpt'}).append $('<span>', {class: 'span_new'}).append memo
-			td_date = $('<td>', {class: 'td_date'}).append $('<span>', {class: 'span_new'}).append '27/07/2014'
+				td_memo = $('<td>', {class: 'td_excerpt'}).append $('<span>', {class: 'span_new'}).append memo
+				td_date = $('<td>', {class: 'td_date'}).append $('<span>', {class: 'span_new'}).append date
 
-			tr = $('<tr>')
-			tr.append td_memo
-			tr.append td_date
+				tr = $('<tr>')
+				tr.append td_memo
+				tr.append td_date
+				$('#table_memos > tbody > tr').eq(0).after tr
 
-			$('#table_memos > tbody > tr').eq(0).after tr
-
-			$('.span_new').animate {opacity: 1}, {duration: 600, complete: -> $('.span_new').removeClass 'span_new'}
+				$('.span_new').animate {color: 'white'}, {duration: 600, complete: -> $('.span_new').removeClass 'span_new'}
 
 	$('table').on 'mouseover', '.td_excerpt', ->
 		$(@).addClass("td_excerpt_mouseover")
@@ -70,6 +72,17 @@ fill = ->
 
 		$("#table_memos").append tr
 
+getDate = ->
+	today = new Date()
+	dd = today.getDate()
+	mm = today.getMonth() + 1
+	yyyy = today.getFullYear()
+	dd = "0" + dd  if dd < 10
+	mm = "0" + mm  if mm < 10
+	today = mm + "/" + dd + "/" + yyyy
+
+saveMemo = (memo) ->
+	log 'Saving memo: ' + memo
 
 `function makeid()
 {
