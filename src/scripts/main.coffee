@@ -50,6 +50,7 @@ init = ->
 		$(@).removeClass('td_excerpt_mouseover')
 		$(@).next().removeClass('td_date_mouseover')
 
+	fill()
 	loadMemos()
 
 newMemo = (memo, date) ->

@@ -132,6 +132,11 @@ table
 	text-align: justify;
 }
 
+#table_memos tbody
+{
+	width: 600px;
+}
+
 .th_memo_input
 {
 	padding-top: 30px;
@@ -154,6 +159,7 @@ table
 .td_excerpt
 {
 	@extend %td_memo;
+	width: 85%;
 	color: $LIGHT_GREY;
 	padding: 10px 0px 10px 0;
 }
@@ -170,12 +176,12 @@ table
 	padding-left: 15px;
 }
 
-.span_new
-{
-	color: $PINK;
-}
-
 .td_date_mouseover
 {
 	color: $BLUE;
+}
+
+.span_new
+{
+	color: $PINK;
 }
