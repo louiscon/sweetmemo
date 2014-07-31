@@ -2,6 +2,8 @@ plus_open = false
 
 $(document).ready -> init()
 
+log = (s) -> console.log s
+
 init = ->
 
 	$('#div_plus').click ->
@@ -49,9 +51,9 @@ init = ->
 	$('table').on 'mouseleave', '.td_excerpt', ->
 		$(@).removeClass('td_excerpt_mouseover')
 		$(@).next().removeClass('td_date_mouseover')
-
 	fill()
-	loadMemos()
+	log 'x'
+	#loadMemos()
 
 newMemo = (memo, date) ->
 	td_memo = $('<td>', {class: 'td_excerpt'}).append $('<span>', {class: 'span_new'}).append memo
@@ -63,22 +65,6 @@ newMemo = (memo, date) ->
 	$('#table_memos > tbody > tr').eq(0).after tr
 
 	$('.span_new').animate {color: 'white'}, {duration: 600, complete: -> $('.span_new').removeClass 'span_new'}
-
-fill = ->
-	for i in [0..50] by 1
-		memo = makeid()
-
-		td_excerpt = $('<td>', {class: 'td_excerpt'})
-		td_excerpt.append memo
-
-		td_date = $('<td>', {class: 'td_date'})
-		td_date.append '27/07/2014'
-
-		tr = $('<tr>')
-		tr.append td_excerpt
-		tr.append td_date
-
-		$("#table_memos").append tr
 
 formatDate = (today = undefined) ->
 	if today is undefined then today = new Date()
@@ -116,6 +102,9 @@ fill = ->
 		td_excerpt.append memo
 
 		td_date = $('<td>', {class: 'td_date'})
+
+		randomTime = Math.floor(Math.random() * Date.now())
+		log randomTime
 		td_date.append '27/07/2014'
 
 		tr = $('<tr>')
@@ -134,5 +123,3 @@ fill = ->
 
     return text;
 }`
-
-log = (s) -> console.log s
