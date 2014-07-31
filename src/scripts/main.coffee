@@ -31,20 +31,16 @@ init = ->
 		if event.keyCode is 13
 			event.preventDefault()
 			if $(@).val() != ''
+
 				memo = $(@).val()
-				date = getDate()
-				saveMemo(memo)
+				date = formatDate()
+				time = new Date().getTime()
+
 				$(@).val('')
 
-				td_memo = $('<td>', {class: 'td_excerpt'}).append $('<span>', {class: 'span_new'}).append memo
-				td_date = $('<td>', {class: 'td_date'}).append $('<span>', {class: 'span_new'}).append date
-
-				tr = $('<tr>')
-				tr.append td_memo
-				tr.append td_date
-				$('#table_memos > tbody > tr').eq(0).after tr
-
-				$('.span_new').animate {color: 'white'}, {duration: 600, complete: -> $('.span_new').removeClass 'span_new'}
+				newMemo memo, date
+				saveMemo memo, time
+				
 
 	$('table').on 'mouseover', '.td_excerpt', ->
 		$(@).addClass("td_excerpt_mouseover")
@@ -54,7 +50,18 @@ init = ->
 		$(@).removeClass('td_excerpt_mouseover')
 		$(@).next().removeClass('td_date_mouseover')
 
-	fill()
+	loadMemos()
+
+newMemo = (memo, date) ->
+	td_memo = $('<td>', {class: 'td_excerpt'}).append $('<span>', {class: 'span_new'}).append memo
+	td_date = $('<td>', {class: 'td_date'}).append $('<span>', {class: 'span_new'}).append date
+
+	tr = $('<tr>')
+	tr.append td_memo
+	tr.append td_date
+	$('#table_memos > tbody > tr').eq(0).after tr
+
+	$('.span_new').animate {color: 'white'}, {duration: 600, complete: -> $('.span_new').removeClass 'span_new'}
 
 fill = ->
 	for i in [0..50] by 1
@@ -72,8 +79,8 @@ fill = ->
 
 		$("#table_memos").append tr
 
-getDate = ->
-	today = new Date()
+formatDate = (today = undefined) ->
+	if today is undefined then today = new Date()
 	dd = today.getDate()
 	mm = today.getMonth() + 1
 	yyyy = today.getFullYear()
@@ -81,8 +88,40 @@ getDate = ->
 	mm = "0" + mm  if mm < 10
 	today = mm + "/" + dd + "/" + yyyy
 
-saveMemo = (memo) ->
-	log 'Saving memo: ' + memo
+loadMemos = ->
+	for time, memo of $.cookie()
+
+		td_excerpt = $('<td>', {class: 'td_excerpt'})
+		td_excerpt.append memo
+
+		td_date = $('<td>', {class: 'td_date'})
+		td_date.append formatDate(new Date(+time))
+
+		tr = $('<tr>')
+		tr.append td_excerpt
+		tr.append td_date
+
+		$("#table_memos").append tr
+
+saveMemo = (memo, time) ->
+	sTime = String(time)
+	$.cookie sTime, memo
+
+fill = ->
+	for i in [0..50] by 1
+		memo = makeid()
+
+		td_excerpt = $('<td>', {class: 'td_excerpt'})
+		td_excerpt.append memo
+
+		td_date = $('<td>', {class: 'td_date'})
+		td_date.append '27/07/2014'
+
+		tr = $('<tr>')
+		tr.append td_excerpt
+		tr.append td_date
+
+		$("#table_memos").append tr
 
 `function makeid()
 {
