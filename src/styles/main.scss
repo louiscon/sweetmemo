@@ -136,7 +136,19 @@ table
 {
 	width: 600px;
 	table-layout: fixed;
+}
 
+#table_memos tr
+{
+	&:hover .textarea_excerpt
+	{
+		color: $PINK;
+	}
+
+	&:hover .td_date
+	{
+		color: $BLUE;
+	}
 }
 
 $TD_MEMO_WIDTH: 85%;
@@ -169,9 +181,21 @@ $TD_MEMO_WIDTH: 85%;
 	word-wrap: break-word;
 }
 
-.td_excerpt_mouseover
+.textarea_excerpt
 {
-	color: $PINK;
+	@extend %td_memo;
+	background-color: $BACKGROUND_COLOUR;
+	resize: none;
+	width: 100%;
+	border: none;
+
+	&:focus
+	{
+		color: $PINK;
+	    outline: none !important;
+	    background-color: $DARK_GREY;
+	    text-transform: none !important;
+	}
 }
 
 .td_date
@@ -179,11 +203,6 @@ $TD_MEMO_WIDTH: 85%;
 	@extend %td_memo;
 	padding-left: 15px;
 	width: 100% - $TD_MEMO_WIDTH;
-}
-
-.td_date_mouseover
-{
-	color: $BLUE;
 }
 
 .span_new

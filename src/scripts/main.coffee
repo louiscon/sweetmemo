@@ -42,18 +42,26 @@ init = ->
 				$(@).val('')
 				currentTime = new Date().getTime()
 				newMemo = new Memo(content, currentTime)
-				saveMemo(currentTime, newMemo)
+				saveMemo(String(currentTime), newMemo)
 				displayMemo(currentTime, $.jStorage.get(currentTime), true)
 				$('.span_new').animate {color: 'white'}, {duration: 600, complete: -> $('.span_new').removeClass 'span_new'}
+
+	$("#table_memos").on 'click', '.td_excerpt', (event) ->
+		$('.textarea_excerpt', @).focus()
+
+	$("#table_memos").on 'keydown', '.textarea_excerpt', (event) ->
+		if event.keyCode is 13
+			event.preventDefault()
+			if $(@).val() != ''
+				$(@).blur()
+
+	$("#table_memos").on 'focusout', '.textarea_excerpt', ->
+			memoID = $(@).attr 'id'
+			updatedMemo = $.jStorage.get(memoID)
+			updatedMemo['content'] = $(@).val()
+			updatedMemo['updated'] = new Date().getTime()
+			saveMemo(memoID, updatedMemo)
 				
-
-	$('table').on 'mouseover', '.td_excerpt', ->
-		$(@).addClass("td_excerpt_mouseover")
-		$(@).next().addClass('td_date_mouseover')
-
-	$('table').on 'mouseleave', '.td_excerpt', ->
-		$(@).removeClass('td_excerpt_mouseover')
-		$(@).next().removeClass('td_date_mouseover')
 	#fill()
 	loadMemos()
 
@@ -66,15 +74,17 @@ Memo = (content, updated) ->
 displayMemo = (time, memo, animate = false) ->
 	timePct = memo['updated'] / Date.now()
 	opacity = Math.max 0.2, timePct
-	newClass = if animate then ' span_new' else ''
-	td_excerpt = $('<td>', {class: 'td_excerpt' + newClass})
-	td_excerpt.append memo['content']
+	newClass = if animate then ' textarea_new' else ''
+	td_excerpt = $('<td>', {class: 'td_excerpt'})
+	textarea_excerpt = $('<textarea>', {id: time, class: 'textarea_excerpt' + newClass})
+	textarea_excerpt.val memo['content']
+	td_excerpt.append textarea_excerpt
 	td_date = $('<td>', {class: 'td_date' + newClass})
 	td_date.append dateFromTime(time)
 	tr = $('<tr>')
 	tr.append td_excerpt
 	tr.append td_date
-	tr.css {opacity: opacity}
+	$('.span_new').css {opacity: opacity}
 	$('#table_memos > tbody > tr').eq(0).after tr
 
 dateFromTime = (time) ->
@@ -94,7 +104,8 @@ loadMemos = ->
 
 saveMemo = (time, memo) ->
 	log 'Saving memo: ' + time + ': ' + memo['content']
-	$.jStorage.set(String(time), memo, {TTL: 99999999999})
+	log time
+	$.jStorage.set(time, memo, {TTL: 99999999999})
 	log 'Saved memo: ' + time + ': ' + $.jStorage.get(time)['content']
 	log 'Stored data size: ' + $.jStorage.storageSize()
 
