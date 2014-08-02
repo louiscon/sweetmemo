@@ -5,6 +5,8 @@ $(document).ready -> init()
 log = (s) -> console.log s
 
 init = ->
+	log 'Storage engine: ' + $.jStorage.currentBackend()
+	log 'Storage available: ' + $.jStorage.storageAvailable()
 
 	$('#div_plus').click ->
 		right = (if plus_open then '5%' else '105%')
@@ -18,6 +20,9 @@ init = ->
 		$(@).animate {rotation: angle}, {duration: duration, step: (now, fx) -> $('#div_plus').css "-webkit-transform", "rotate(" + now + "deg)"}
 		$('#input').animate {width: width}, {duration: duration, easing: easing, complete: -> $('#input').css {'border': border} }
 		plus_open = not plus_open
+
+	$('#logo1').click ->
+		$.jStorage.flush()
 
 	$('#div_plus').mouseover ->
 		if plus_open
@@ -33,15 +38,11 @@ init = ->
 		if event.keyCode is 13
 			event.preventDefault()
 			if $(@).val() != ''
-
-				memo = $(@).val()
-				date = formatDate()
-				time = new Date().getTime()
-
+				content = $(@).val()
 				$(@).val('')
-
-				newMemo memo, date
-				saveMemo memo, time
+				currentTime = new Date().getTime()
+				saveMemo(currentTime, new Memo(content, currentTime))
+				displayNewMemo(currentTime)
 				
 
 	$('table').on 'mouseover', '.td_excerpt', ->
@@ -51,38 +52,49 @@ init = ->
 	$('table').on 'mouseleave', '.td_excerpt', ->
 		$(@).removeClass('td_excerpt_mouseover')
 		$(@).next().removeClass('td_date_mouseover')
-	fill()
-	log 'x'
-	#loadMemos()
+	#fill()
+	loadMemos()
 
-newMemo = (memo, date) ->
-	td_memo = $('<td>', {class: 'td_excerpt'}).append $('<span>', {class: 'span_new'}).append memo
+Memo = (content, updated) ->
+	@content = content
+	@updated = updated
+	@previous = undefined
+	@next = undefined
+
+displayNewMemo = (key) ->
+	content = $.jStorage.get(key)['content']
+	date = dateFromTime(key)
+
+	td_content = $('<td>', {class: 'td_excerpt'}).append $('<span>', {class: 'span_new'}).append content
 	td_date = $('<td>', {class: 'td_date'}).append $('<span>', {class: 'span_new'}).append date
 
 	tr = $('<tr>')
-	tr.append td_memo
+	tr.append td_content
 	tr.append td_date
 	$('#table_memos > tbody > tr').eq(0).after tr
 
 	$('.span_new').animate {color: 'white'}, {duration: 600, complete: -> $('.span_new').removeClass 'span_new'}
 
-formatDate = (today = undefined) ->
-	if today is undefined then today = new Date()
-	dd = today.getDate()
-	mm = today.getMonth() + 1
-	yyyy = today.getFullYear()
-	dd = "0" + dd  if dd < 10
-	mm = "0" + mm  if mm < 10
-	today = mm + "/" + dd + "/" + yyyy
+dateFromTime = (time) ->
+	formatDate(new Date(+time))
+
+formatDate = (date) ->
+	dd = date.getDate()
+	mm = date.getMonth() + 1
+	yyyy = date.getFullYear()
+	dd = "0" + dd if dd < 10
+	mm = "0" + mm if mm < 10
+	date = mm + "/" + dd + "/" + yyyy
 
 loadMemos = ->
-	for time, memo of $.cookie()
+	log $.jStorage.index()
+	for key in $.jStorage.index().reverse()
 
 		td_excerpt = $('<td>', {class: 'td_excerpt'})
-		td_excerpt.append memo
+		td_excerpt.append $.jStorage.get(key)['content']
 
 		td_date = $('<td>', {class: 'td_date'})
-		td_date.append formatDate(new Date(+time))
+		td_date.append dateFromTime(key)
 
 		tr = $('<tr>')
 		tr.append td_excerpt
@@ -90,9 +102,10 @@ loadMemos = ->
 
 		$("#table_memos").append tr
 
-saveMemo = (memo, time) ->
-	sTime = String(time)
-	$.cookie sTime, memo
+saveMemo = (time, memo) ->
+	log 'Saving memo: ' + time + ': ' + memo['content']
+	$.jStorage.set(String(time), memo, {TTL: 99999999999})
+	log 'Saved memo: ' + time + ': ' + $.jStorage.get(time)['content']
 
 fill = ->
 	for i in [0..50] by 1
@@ -103,9 +116,15 @@ fill = ->
 
 		td_date = $('<td>', {class: 'td_date'})
 
-		randomTime = Math.floor(Math.random() * Date.now())
-		log randomTime
-		td_date.append '27/07/2014'
+		now = Date.now()
+		randomTime = Math.floor(Math.random() * now)
+		timePct = randomTime / now
+		opacity = Math.max 0.2, timePct
+		randomDate = formatDate(new Date(randomTime))
+		
+		td_date.append randomDate
+		td_excerpt.css {opacity: opacity}
+		td_date.css {opacity: opacity}
 
 		tr = $('<tr>')
 		tr.append td_excerpt
