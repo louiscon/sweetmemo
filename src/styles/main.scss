@@ -132,10 +132,14 @@ table
 	text-align: justify;
 }
 
-#table_memos tbody
+#table_memos
 {
 	width: 600px;
+	table-layout: fixed;
+
 }
+
+$TD_MEMO_WIDTH: 85%;
 
 .th_memo_input
 {
@@ -143,6 +147,7 @@ table
 	padding-bottom: 30px;
 	position: relative;
 	vertical-align: middle;
+	width: $TD_MEMO_WIDTH;
 }
 
 .tr_memo_input
@@ -154,14 +159,14 @@ table
 {
 	@include font_memo;
 	cursor: pointer;
+	color: $LIGHT_GREY;
 }
 
 .td_excerpt
 {
 	@extend %td_memo;
-	width: 85%;
-	color: $LIGHT_GREY;
 	padding: 10px 0px 10px 0;
+	word-wrap: break-word;
 }
 
 .td_excerpt_mouseover
@@ -172,8 +177,8 @@ table
 .td_date
 {
 	@extend %td_memo;
-	color: $LIGHT_GREY;
 	padding-left: 15px;
+	width: 100% - $TD_MEMO_WIDTH;
 }
 
 .td_date_mouseover

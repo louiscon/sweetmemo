@@ -41,8 +41,10 @@ init = ->
 				content = $(@).val()
 				$(@).val('')
 				currentTime = new Date().getTime()
-				saveMemo(currentTime, new Memo(content, currentTime))
-				displayNewMemo(currentTime)
+				newMemo = new Memo(content, currentTime)
+				saveMemo(currentTime, newMemo)
+				displayMemo(currentTime, $.jStorage.get(currentTime), true)
+				$('.span_new').animate {color: 'white'}, {duration: 600, complete: -> $('.span_new').removeClass 'span_new'}
 				
 
 	$('table').on 'mouseover', '.td_excerpt', ->
@@ -61,19 +63,19 @@ Memo = (content, updated) ->
 	@previous = undefined
 	@next = undefined
 
-displayNewMemo = (key) ->
-	content = $.jStorage.get(key)['content']
-	date = dateFromTime(key)
-
-	td_content = $('<td>', {class: 'td_excerpt'}).append $('<span>', {class: 'span_new'}).append content
-	td_date = $('<td>', {class: 'td_date'}).append $('<span>', {class: 'span_new'}).append date
-
+displayMemo = (time, memo, animate = false) ->
+	timePct = memo['updated'] / Date.now()
+	opacity = Math.max 0.2, timePct
+	newClass = if animate then ' span_new' else ''
+	td_excerpt = $('<td>', {class: 'td_excerpt' + newClass})
+	td_excerpt.append memo['content']
+	td_date = $('<td>', {class: 'td_date' + newClass})
+	td_date.append dateFromTime(time)
 	tr = $('<tr>')
-	tr.append td_content
+	tr.append td_excerpt
 	tr.append td_date
+	tr.css {opacity: opacity}
 	$('#table_memos > tbody > tr').eq(0).after tr
-
-	$('.span_new').animate {color: 'white'}, {duration: 600, complete: -> $('.span_new').removeClass 'span_new'}
 
 dateFromTime = (time) ->
 	formatDate(new Date(+time))
@@ -87,49 +89,32 @@ formatDate = (date) ->
 	date = mm + "/" + dd + "/" + yyyy
 
 loadMemos = ->
-	log $.jStorage.index()
-	for key in $.jStorage.index().reverse()
-
-		td_excerpt = $('<td>', {class: 'td_excerpt'})
-		td_excerpt.append $.jStorage.get(key)['content']
-
-		td_date = $('<td>', {class: 'td_date'})
-		td_date.append dateFromTime(key)
-
-		tr = $('<tr>')
-		tr.append td_excerpt
-		tr.append td_date
-
-		$("#table_memos").append tr
+	for key in $.jStorage.index()
+		displayMemo key, $.jStorage.get(key)
 
 saveMemo = (time, memo) ->
 	log 'Saving memo: ' + time + ': ' + memo['content']
 	$.jStorage.set(String(time), memo, {TTL: 99999999999})
 	log 'Saved memo: ' + time + ': ' + $.jStorage.get(time)['content']
+	log 'Stored data size: ' + $.jStorage.storageSize()
 
 fill = ->
 	for i in [0..50] by 1
 		memo = makeid()
-
 		td_excerpt = $('<td>', {class: 'td_excerpt'})
 		td_excerpt.append memo
-
 		td_date = $('<td>', {class: 'td_date'})
-
 		now = Date.now()
 		randomTime = Math.floor(Math.random() * now)
 		timePct = randomTime / now
 		opacity = Math.max 0.2, timePct
-		randomDate = formatDate(new Date(randomTime))
-		
+		randomDate = formatDate(new Date(randomTime))		
 		td_date.append randomDate
 		td_excerpt.css {opacity: opacity}
 		td_date.css {opacity: opacity}
-
 		tr = $('<tr>')
 		tr.append td_excerpt
 		tr.append td_date
-
 		$("#table_memos").append tr
 
 `function makeid()
