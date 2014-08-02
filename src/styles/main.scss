@@ -138,8 +138,18 @@ table
 	table-layout: fixed;
 }
 
+#table_memos, tr, td, th
+{
+	border-collapse: collapse;
+}
+
 #table_memos tr
 {
+	&:hover .td_arrow
+	{
+		opacity: 1;
+	}
+
 	&:hover .textarea_excerpt
 	{
 		color: $PINK;
@@ -151,7 +161,7 @@ table
 	}
 }
 
-$TD_MEMO_WIDTH: 85%;
+$TD_MEMO_WIDTH: 80%;
 
 .th_memo_input
 {
@@ -188,6 +198,7 @@ $TD_MEMO_WIDTH: 85%;
 	resize: none;
 	width: 100%;
 	border: none;
+	vertical-align: middle;
 
 	&:focus
 	{
@@ -202,7 +213,64 @@ $TD_MEMO_WIDTH: 85%;
 {
 	@extend %td_memo;
 	padding-left: 15px;
-	width: 100% - $TD_MEMO_WIDTH;
+	width: 10%;
+}
+
+.td_arrow
+{
+	@extend %td_memo;
+	width: 10%;
+	opacity: 0;
+	color: $GREEN;
+	text-align: right;
+	position: relative;
+
+	&:hover div_edit
+	{
+		display: inline-block;
+	}
+}
+
+.div_edit
+{
+	background-color: $DARK_GREY;
+	color: white;
+	display: inline-block;
+	border-radius: 5px;
+	position: absolute;
+	width: 60px;
+	right: 30px;
+	bottom: 10px;
+}
+
+%edit_icon
+{
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	margin: 5px;
+}
+
+.edit_star
+{
+	@extend %edit_icon;
+	background: url(../img/star_colour.png) no-repeat;
+
+	&:hover
+	{
+		background: url(../img/star_colour.png) no-repeat;
+	}
+}
+
+.edit_x
+{
+	@extend %edit_icon;
+	background: url(../img/cross_colour.png) no-repeat;
+
+	&:hover
+	{
+		background: url(../img/cross_colour.png) no-repeat;
+	}
 }
 
 .span_new

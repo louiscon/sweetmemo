@@ -50,7 +50,7 @@ init = ->
 		$('.textarea_excerpt', @).focus()
 
 	$("#table_memos").on 'keydown', '.textarea_excerpt', (event) ->
-		if event.keyCode is 13
+		if event.keyCode is 13 and not event.shiftKey
 			event.preventDefault()
 			if $(@).val() != ''
 				$(@).blur()
@@ -72,19 +72,33 @@ Memo = (content, updated) ->
 	@next = undefined
 
 displayMemo = (time, memo, animate = false) ->
-	timePct = memo['updated'] / Date.now()
-	opacity = Math.max 0.2, timePct
+	###edit_colours = $('<div>', {class: 'edit_colours'})
+	edit_colours.append ($('<div>', {class: 'edit_colour_1'}))
+	edit_colours.append ($('<div>', {class: 'edit_colour_2'}))
+	edit_colours.append ($('<div>', {class: 'edit_colour_3'}))
+	edit_colours.append ($('<div>', {class: 'edit_colour_4'}))###
+
+	div_edit = $('<div>', {class: 'div_edit'})
+	edit_star = $('<div>', {class: 'edit_star'})
+	edit_x = $('<div>', {class: 'edit_x'})
+	div_edit.append [edit_x, edit_star]
+
+	td_arrow = $('<td>', {class: 'td_arrow'})
+	td_arrow.append div_edit
+
 	newClass = if animate then ' textarea_new' else ''
 	td_excerpt = $('<td>', {class: 'td_excerpt'})
 	textarea_excerpt = $('<textarea>', {id: time, class: 'textarea_excerpt' + newClass})
 	textarea_excerpt.val memo['content']
 	td_excerpt.append textarea_excerpt
+
 	td_date = $('<td>', {class: 'td_date' + newClass})
 	td_date.append dateFromTime(time)
+
 	tr = $('<tr>')
-	tr.append td_excerpt
-	tr.append td_date
-	$('.span_new').css {opacity: opacity}
+	tr.append [td_arrow, td_excerpt, td_date]
+
+	$('.span_new').css {opacity: Math.max 0.2, memo['updated'] / Date.now()}
 	$('#table_memos > tbody > tr').eq(0).after tr
 
 dateFromTime = (time) ->
