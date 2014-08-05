@@ -233,7 +233,7 @@ $TD_MEMO_WIDTH: 80%;
 
 .div_edit
 {
-	background-color: $DARK_GREY;
+	//background-color: $DARK_GREY;
 	color: white;
 	display: inline-block;
 	border-radius: 5px;
@@ -254,7 +254,7 @@ $TD_MEMO_WIDTH: 80%;
 .edit_star
 {
 	@extend %edit_icon;
-	background: url(../img/star_colour.png) no-repeat;
+	background: url(../img/star.png) no-repeat;
 
 	&:hover
 	{
@@ -265,7 +265,7 @@ $TD_MEMO_WIDTH: 80%;
 .edit_x
 {
 	@extend %edit_icon;
-	background: url(../img/cross_colour.png) no-repeat;
+	background: url(../img/cross.png) no-repeat;
 
 	&:hover
 	{
