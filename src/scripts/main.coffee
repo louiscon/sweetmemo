@@ -9,6 +9,7 @@ init = ->
 	log 'Storage available: ' + $.jStorage.storageAvailable()
 
 	$('#div_plus').click ->
+		return
 		right = (if plus_open then '5%' else '105%')
 		width = (if plus_open then '0' else '100%')
 		angle = (if plus_open then '0' else '-45deg')

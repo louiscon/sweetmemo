@@ -1,13 +1,16 @@
 @import "_include.scss";
 @import "_fonts.scss";
 
-$BACKGROUND_COLOUR: #282828;
+$BACKGROUND_COLOUR: #141414;
 $LIGHT_GREY: #DDDDDD;
 $GREEN: #A6E22E; 
 $PINK: #F92672;
 $BLUE: #00AEEF;
 $RED: #9E0B0F;
-$DARK_GREY: #141414;
+$DARK_GREY: #282828;
+$LIGHT_BROWN: #AC885B;
+$LIGHT_GREEN: #8F9D6A;
+$LIGHT_PURPLE: #9D859D;
 
 body
 {
@@ -39,7 +42,7 @@ body
 #logo1
 {
 	@extend %logo;
-	color: $PINK;
+	color: $BLUE;
 }
 
 #logo2
@@ -56,21 +59,17 @@ body
 
 #input
 {
-	width: 0;
+	width: 100%;
 	margin: 0;
-    border: 0;
     padding: 0;
 	height: 50px;
 	overflow: hidden;
 	float: right;
 	resize: vertical;
-	background-color: $DARK_GREY;
-	color: $PINK;
-	border: none;
+	background-color: black;
+	color: white;
+	border: 1px solid $BLUE;
 	max-height: 200px;
-	-moz-box-shadow:    inset 0 0 20px #000000;
-	-webkit-box-shadow: inset 0 0 20px #000000;
-	box-shadow:         inset 0 0 20px #000000;
 }
 
 #plus
@@ -152,12 +151,13 @@ table
 
 	&:hover .textarea_excerpt
 	{
-		color: $PINK;
+		color: $BLUE;
+		-webkit-transition: 0s;
 	}
 
 	&:hover .td_date
 	{
-		color: $BLUE;
+		color: white;
 	}
 }
 
@@ -199,14 +199,21 @@ $TD_MEMO_WIDTH: 80%;
 	width: 100%;
 	border: none;
 	vertical-align: middle;
+	color: white;
+	overflow: hidden;
+	-webkit-transition: 1s;
 
 	&:focus
 	{
-		color: $PINK;
 	    outline: none !important;
 	    background-color: $DARK_GREY;
 	    text-transform: none !important;
 	}
+}
+
+.textarea_excerpt
+{
+
 }
 
 .td_date
@@ -214,6 +221,7 @@ $TD_MEMO_WIDTH: 80%;
 	@extend %td_memo;
 	padding-left: 15px;
 	width: 10%;
+	color: $BLUE;
 }
 
 .td_arrow
