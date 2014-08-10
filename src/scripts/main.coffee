@@ -62,6 +62,11 @@ init = ->
 			updatedMemo['content'] = $(@).val()
 			updatedMemo['updated'] = new Date().getTime()
 			saveMemo(memoID, updatedMemo)
+
+	$("#table_memos").on 'click', '.edit_x', ->
+		id = $(@).parent().parent().parent().attr('data-id')
+		deleteMemo id
+		undisplayMemo id
 				
 	#fill()
 	loadMemos()
@@ -73,12 +78,6 @@ Memo = (content, updated) ->
 	@next = undefined
 
 displayMemo = (time, memo, animate = false) ->
-	###edit_colours = $('<div>', {class: 'edit_colours'})
-	edit_colours.append ($('<div>', {class: 'edit_colour_1'}))
-	edit_colours.append ($('<div>', {class: 'edit_colour_2'}))
-	edit_colours.append ($('<div>', {class: 'edit_colour_3'}))
-	edit_colours.append ($('<div>', {class: 'edit_colour_4'}))###
-
 	div_edit = $('<div>', {class: 'div_edit'})
 	edit_star = $('<div>', {class: 'edit_star'})
 	edit_x = $('<div>', {class: 'edit_x'})
@@ -96,11 +95,17 @@ displayMemo = (time, memo, animate = false) ->
 	td_date = $('<td>', {class: 'td_date' + newClass})
 	td_date.append dateFromTime(time)
 
-	tr = $('<tr>')
+	tr = $('<tr>', {'data-id': time})
 	tr.append [td_arrow, td_excerpt, td_date]
 
 	$('.span_new').css {opacity: Math.max 0.2, memo['updated'] / Date.now()}
-	$('#table_memos > tbody > tr').eq(0).after tr
+	$('#table_memos').prepend tr
+
+undisplayMemo = (id) ->
+	$("#table_memos > tbody > tr[data-id='" + id + "']").animate {opacity: 0}, {duration: 200, complete: -> $(@).hide()}
+
+deleteMemo = (id) ->
+	$.jStorage.deleteKey(id)
 
 dateFromTime = (time) ->
 	formatDate(new Date(+time))
