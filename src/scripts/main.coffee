@@ -81,25 +81,27 @@ displayMemo = (time, memo, animate = false) ->
 	div_edit = $('<div>', {class: 'div_edit'})
 	edit_star = $('<div>', {class: 'edit_star'})
 	edit_x = $('<div>', {class: 'edit_x'})
-	div_edit.append [edit_x, edit_star]
+	edit_clip = $('<div>', {class: 'edit_clip'})
+	div_edit.append [edit_x, edit_star, edit_clip]
 
 	td_arrow = $('<td>', {class: 'td_arrow'})
 	td_arrow.append div_edit
 
-	newClass = if animate then ' textarea_new' else ''
 	td_excerpt = $('<td>', {class: 'td_excerpt'})
-	textarea_excerpt = $('<textarea>', {id: time, class: 'textarea_excerpt' + newClass})
+	textarea_excerpt = $('<textarea>', {id: time, class: 'textarea_excerpt'})
 	textarea_excerpt.val memo['content']
 	td_excerpt.append textarea_excerpt
 
-	td_date = $('<td>', {class: 'td_date' + newClass})
+	td_date = $('<td>', {class: 'td_date'})
 	td_date.append dateFromTime(time)
 
 	tr = $('<tr>', {'data-id': time})
+	if animate then tr.addClass 'tr_fresh'
 	tr.append [td_arrow, td_excerpt, td_date]
 
 	$('.span_new').css {opacity: Math.max 0.2, memo['updated'] / Date.now()}
 	$('#table_memos').prepend tr
+	$('.tr_fresh').animate {opacity: 1}, {duration: 400, complete: -> $('.tr_fresh').removeClass 'tr_fresh'}
 
 undisplayMemo = (id) ->
 	$("#table_memos > tbody > tr[data-id='" + id + "']").animate {opacity: 0}, {duration: 200, complete: -> $(@).hide()}
