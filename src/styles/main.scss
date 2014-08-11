@@ -43,7 +43,7 @@ body
 #logo1
 {
 	@extend %logo;
-	color: $BLUE;
+	color: $LIGHT_GREEN;
 }
 
 #logo2
@@ -66,11 +66,12 @@ body
 	height: 50px;
 	overflow: hidden;
 	resize: vertical;
-	background-color: black;
+	background-color: $DARK_GREY;
+	border: none;
 	color: white;
-	border: 1px solid $BLUE;
 	max-height: 200px;
 	margin-bottom: 40px;
+	outline: none;
 }
 
 #plus
@@ -121,7 +122,7 @@ $PLUS_SIZE: 50px;
 
 .cross_mouseover
 {
-	background-color: $BLUE !important;
+	background-color: $LIGHT_GREEN !important;
 }
 
 table
@@ -154,7 +155,7 @@ table
 
 	&:hover .textarea_excerpt
 	{
-		color: $BLUE;
+		color: $LIGHT_GREEN;
 		-webkit-transition: 0s;
 	}
 
@@ -193,6 +194,7 @@ $TD_MEMO_WIDTH: 80%;
 	padding: 10px 0px 10px 0;
 	word-wrap: break-word;
 	color: inherit;
+	height: auto;
 }
 
 .textarea_excerpt
@@ -205,6 +207,7 @@ $TD_MEMO_WIDTH: 80%;
 	border: none;
 	vertical-align: middle;
 	overflow: hidden;
+	text-align: justify;
 	-webkit-transition: 1s;
 
 	&:focus
@@ -217,7 +220,7 @@ $TD_MEMO_WIDTH: 80%;
 
 .tr_fresh
 {
-	color: $BLUE !important;
+	color: $LIGHT_GREEN !important;
 }
 
 .td_date
@@ -225,7 +228,7 @@ $TD_MEMO_WIDTH: 80%;
 	@extend %td_memo;
 	padding-left: 15px;
 	width: 10%;
-	color: $BLUE;
+	color: $LIGHT_GREEN;
 }
 
 .td_arrow
@@ -245,7 +248,6 @@ $TD_MEMO_WIDTH: 80%;
 
 .div_edit
 {
-	//background-color: $DARK_GREY;
 	color: white;
 	display: inline-block;
 	border-radius: 5px;

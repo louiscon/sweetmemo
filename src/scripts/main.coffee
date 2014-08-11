@@ -47,6 +47,8 @@ init = ->
 				displayMemo(currentTime, $.jStorage.get(currentTime), true)
 				$('.span_new').animate {color: 'white'}, {duration: 600, complete: -> $('.span_new').removeClass 'span_new'}
 
+	$('#input').autosize()
+
 	$("#table_memos").on 'click', '.td_excerpt', (event) ->
 		$('.textarea_excerpt', @).focus()
 
@@ -57,7 +59,7 @@ init = ->
 				$(@).blur()
 
 	$("#table_memos").on 'focusout', '.textarea_excerpt', ->
-			memoID = $(@).attr 'id'
+			memoID = $(@).attr 'data-id'
 			updatedMemo = $.jStorage.get(memoID)
 			updatedMemo['content'] = $(@).val()
 			updatedMemo['updated'] = new Date().getTime()
@@ -67,6 +69,13 @@ init = ->
 		id = $(@).parent().parent().parent().attr('data-id')
 		deleteMemo id
 		undisplayMemo id
+
+	$("#table_memos").on 'click', '.edit_clip', ->
+		$('textarea[data-id=' + $(@).attr('data-id') + ']').select()
+
+	$("#table_memos").on 'click', '.edit_star', ->
+		log 'star'
+
 				
 	#fill()
 	loadMemos()
@@ -79,17 +88,18 @@ Memo = (content, updated) ->
 
 displayMemo = (time, memo, animate = false) ->
 	div_edit = $('<div>', {class: 'div_edit'})
-	edit_star = $('<div>', {class: 'edit_star'})
-	edit_x = $('<div>', {class: 'edit_x'})
-	edit_clip = $('<div>', {class: 'edit_clip'})
+	edit_star = $('<div>', {'data-id': time, class: 'edit_star'})
+	edit_x = $('<div>', {'data-id': time, class: 'edit_x'})
+	edit_clip = $('<div>', {'data-id': time, class: 'edit_clip'})
 	div_edit.append [edit_x, edit_star, edit_clip]
 
 	td_arrow = $('<td>', {class: 'td_arrow'})
 	td_arrow.append div_edit
 
 	td_excerpt = $('<td>', {class: 'td_excerpt'})
-	textarea_excerpt = $('<textarea>', {id: time, class: 'textarea_excerpt'})
+	textarea_excerpt = $('<textarea>', {'data-id': time, class: 'textarea_excerpt'})
 	textarea_excerpt.val memo['content']
+	textarea_excerpt.autosize()
 	td_excerpt.append textarea_excerpt
 
 	td_date = $('<td>', {class: 'td_date'})
