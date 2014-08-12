@@ -161,7 +161,7 @@ table
 
 	&:hover .td_date
 	{
-		color: white;
+		//color: white;
 	}
 }
 
@@ -254,7 +254,7 @@ $TD_MEMO_WIDTH: 80%;
 	position: absolute;
 	width: 100px;
 	right: 10px;
-	bottom: 9px;
+	top: 10px;
 }
 
 %edit_icon
@@ -295,6 +295,19 @@ $TD_MEMO_WIDTH: 80%;
 	&:hover
 	{
 		background: url(../img/clip_colour.png) no-repeat;
+	}
+}
+
+#github
+{
+	width: 75px;
+	height: 20px;
+	display: inline-block;
+	background: url(../img/github.png) no-repeat;
+
+	&:hover
+	{
+		background: url(../img/github_highlight.png) no-repeat;
 	}
 }
 

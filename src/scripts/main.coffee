@@ -143,22 +143,8 @@ saveMemo = (time, memo) ->
 
 fill = ->
 	for i in [0..50] by 1
-		memo = makeid()
-		td_excerpt = $('<td>', {class: 'td_excerpt'})
-		td_excerpt.append memo
-		td_date = $('<td>', {class: 'td_date'})
-		now = Date.now()
-		randomTime = Math.floor(Math.random() * now)
-		timePct = randomTime / now
-		opacity = Math.max 0.2, timePct
-		randomDate = formatDate(new Date(randomTime))		
-		td_date.append randomDate
-		td_excerpt.css {opacity: opacity}
-		td_date.css {opacity: opacity}
-		tr = $('<tr>')
-		tr.append td_excerpt
-		tr.append td_date
-		$("#table_memos").append tr
+		time = Date.now()
+		saveMemo time, new Memo(makeid(), time)
 
 `function makeid()
 {
