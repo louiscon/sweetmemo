@@ -38,6 +38,7 @@ body
 %logo
 {
 	@include font_logo;
+	@include unselectable;
 }
 
 #logo1
@@ -158,11 +159,6 @@ table
 		color: $LIGHT_GREEN;
 		-webkit-transition: 0s;
 	}
-
-	&:hover .td_date
-	{
-		//color: white;
-	}
 }
 
 $TD_MEMO_WIDTH: 80%;
@@ -239,11 +235,7 @@ $TD_MEMO_WIDTH: 80%;
 	color: $GREEN;
 	text-align: right;
 	position: relative;
-
-	&:hover div_edit
-	{
-		display: inline-block;
-	}
+	-webkit-transition: 0.15s;
 }
 
 .div_edit
